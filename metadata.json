@@ -1,0 +1,6 @@
+{
+  "name": "SPEED BRAIN",
+  "description": "Think Fast. React Faster. A futuristic neon reaction and mental arithmetic arcade game.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

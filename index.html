@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SPEED BRAIN — Think Fast. React Faster.</title>
+  <meta name="description" content="Think Fast. React Faster. A futuristic neon reaction and mental arithmetic arcade game.">
+  <meta property="og:title" content="SPEED BRAIN — Think Fast. React Faster.">
+  <meta property="og:description" content="Think Fast. React Faster. A futuristic neon reaction and mental arithmetic arcade game.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Particle Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="app-shell">
+    <!-- Top Navigation -->
+    <header class="top-nav">
+      <a href="#" id="nav-logo" class="brand-group" title="SPEED BRAIN Home">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-title">SPEED <span>BRAIN</span></div>
+      </a>
+      <div class="nav-actions">
+        <button id="btn-sound-toggle" class="icon-btn" aria-label="Toggle Sound Effects" title="Sound Effects">
+          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        </button>
+        <button id="btn-help" class="icon-btn" aria-label="Help & Instructions" title="Help & Rules">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Screens Viewport -->
+    <main class="screens-viewport">
+
+      <!-- =================================================================
+           SCREEN 1: HOME
+           ================================================================= -->
+      <section id="screen-home" class="screen active">
+        <div class="card-panel home-content">
+          <div class="hero-header">
+            <div class="hero-tag">Neon Reaction Arcade</div>
+            <h1 class="hero-title">SPEED BRAIN</h1>
+            <p class="hero-tagline">Think Fast. React Faster.</p>
+          </div>
+
+          <p class="hero-description">
+            Solve rapid mental arithmetic under intense countdown pressure. Build streaks, trigger Neon Overdrive multipliers, and shatter your personal records.
+          </p>
+
+          <!-- Selectors -->
+          <div class="config-group">
+            <div>
+              <div class="config-label">
+                <span>Difficulty</span>
+                <span style="color:var(--text-dim);font-weight:400;text-transform:none;">Time & math level</span>
+              </div>
+              <div class="segmented-control" role="group" aria-label="Difficulty selection">
+                <button type="button" class="segment-btn" data-diff="casual">Casual</button>
+                <button type="button" class="segment-btn active" data-diff="normal">Normal</button>
+                <button type="button" class="segment-btn" data-diff="pro">Pro Speed</button>
+              </div>
+            </div>
+
+            <div>
+              <div class="config-label">
+                <span>Game Mode</span>
+                <span style="color:var(--text-dim);font-weight:400;text-transform:none;">Rule set</span>
+              </div>
+              <div class="segmented-control" role="group" aria-label="Mode selection">
+                <button type="button" class="segment-btn active" data-mode="classic">Classic (3 ❤)</button>
+                <button type="button" class="segment-btn" data-mode="blitz">60s Blitz</button>
+                <button type="button" class="segment-btn" data-mode="zen">Zen Mode</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Personal Best Stats Strip -->
+          <div class="stats-strip">
+            <div class="stat-box">
+              <span class="stat-label">Personal Best</span>
+              <span id="home-high-score" class="stat-value">0</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Best Streak</span>
+              <span id="home-best-streak" class="stat-value">0x</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Games Played</span>
+              <span id="home-total-games" class="stat-value">0</span>
+            </div>
+          </div>
+
+          <!-- Primary Actions -->
+          <div class="cta-group">
+            <button id="btn-play-game" type="button" class="primary-btn">
+              <span>PLAY GAME</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <button id="btn-home-help" type="button" class="secondary-btn" onclick="window.speedBrain.showModal('help')">
+              How to Play & Shortcuts
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SCREEN 2: READY COUNTDOWN
+           ================================================================= -->
+      <section id="screen-ready" class="screen countdown-screen">
+        <div class="ready-pill">PREPARE YOUR REFLEXES</div>
+        <div id="ready-countdown-num" class="countdown-number">3</div>
+        <p class="countdown-tip">Keyboard: Press 1, 2, 3, 4 to answer</p>
+      </section>
+
+      <!-- =================================================================
+           SCREEN 3: PLAYING (HUD, QUESTION, OPTIONS)
+           ================================================================= -->
+      <section id="screen-playing" class="screen">
+        <!-- HUD Bar -->
+        <div class="game-hud">
+          <!-- Lives or Blitz Timer -->
+          <div id="hud-lives-container" class="lives-container" aria-label="Remaining lives">
+            <svg class="heart-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg class="heart-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg class="heart-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </div>
+
+          <!-- Streak Multiplier Badge -->
+          <div id="hud-streak-badge" class="streak-badge">
+            <span id="hud-streak-text">0x</span>
+          </div>
+
+          <!-- Score -->
+          <div class="hud-item">
+            <span class="hud-label">Score</span>
+            <span id="hud-score-val" class="hud-value">0</span>
+          </div>
+
+          <!-- Pause -->
+          <button id="btn-pause-game" class="icon-btn" aria-label="Pause Game" title="Pause (Esc)">
+            <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+        </div>
+
+        <!-- Question Card -->
+        <div class="question-card">
+          <!-- Countdown Timer Bar -->
+          <div class="timer-bar-wrap">
+            <div id="question-timer-bar" class="timer-bar"></div>
+          </div>
+
+          <!-- Floating Answer Feedback Toast -->
+          <div id="feedback-toast" class="feedback-toast">+150 pts</div>
+
+          <div id="question-category" class="question-category">Mental Math</div>
+          <div id="question-equation" class="question-text">24 + 18</div>
+        </div>
+
+        <!-- Multiple Choice 4-Option Grid -->
+        <div id="options-grid" class="options-grid">
+          <button type="button" class="option-btn" data-val="0">
+            <span class="key-hint">1</span>
+            <span class="val-text">0</span>
+          </button>
+          <button type="button" class="option-btn" data-val="0">
+            <span class="key-hint">2</span>
+            <span class="val-text">0</span>
+          </button>
+          <button type="button" class="option-btn" data-val="0">
+            <span class="key-hint">3</span>
+            <span class="val-text">0</span>
+          </button>
+          <button type="button" class="option-btn" data-val="0">
+            <span class="key-hint">4</span>
+            <span class="val-text">0</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SCREEN 4: GAME OVER
+           ================================================================= -->
+      <section id="screen-gameover" class="screen">
+        <div class="card-panel gameover-content">
+          <div class="over-header">
+            <div id="over-record-badge" class="over-badge standard">RUN COMPLETE</div>
+            <h2 id="over-title-text" class="over-title">GAME OVER</h2>
+            <div id="over-rank-text" class="rank-banner">🧠 Rapid Synapse Ace</div>
+          </div>
+
+          <!-- Final Score Box -->
+          <div class="final-score-box">
+            <div class="final-score-label">Final Score</div>
+            <div id="over-score-num" class="final-score-num">0</div>
+          </div>
+
+          <!-- Performance Breakdown -->
+          <div class="results-grid">
+            <div class="result-card">
+              <div class="result-label">Accuracy</div>
+              <div id="over-stat-accuracy" class="result-val">0%</div>
+            </div>
+            <div class="result-card">
+              <div class="result-label">Max Streak</div>
+              <div id="over-stat-streak" class="result-val">0x</div>
+            </div>
+            <div class="result-card">
+              <div class="result-label">Avg Speed</div>
+              <div id="over-stat-speed" class="result-val">0.00s</div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="cta-group">
+            <button id="btn-play-again" type="button" class="primary-btn">
+              <span>PLAY AGAIN</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+            </button>
+            <div style="display:flex;gap:10px;width:100%;">
+              <button id="btn-main-menu" type="button" class="secondary-btn" style="flex:1;">Main Menu</button>
+              <button id="btn-share-score" type="button" class="secondary-btn" style="flex:1;">Share Result</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- =================================================================
+       MODAL: HELP & INSTRUCTIONS
+       ================================================================= -->
+  <div id="modal-help" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="help-title" class="modal-title">How to Play</h3>
+        <button id="btn-close-help" class="icon-btn" aria-label="Close Help">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+
+      <div class="help-section">
+        <div class="help-item">
+          <span class="help-num">1</span>
+          <div><strong>Mental Arithmetic Under Pressure:</strong> Evaluate the math equation shown on the screen and tap or press the corresponding correct answer button.</div>
+        </div>
+        <div class="help-item">
+          <span class="help-num">2</span>
+          <div><strong>Beat the Neon Timer:</strong> The top progress bar drains quickly. Faster answers earn bigger speed reaction bonuses!</div>
+        </div>
+        <div class="help-item">
+          <span class="help-num">3</span>
+          <div><strong>Streak Multipliers:</strong>
+            <ul style="margin-top:4px;padding-left:18px;font-size:0.88rem;line-height:1.6;">
+              <li>3+ Streak: <strong>1.5x Multiplier</strong></li>
+              <li>6+ Streak: <strong>2.0x Multiplier</strong></li>
+              <li>10+ Streak: <strong>3.0x Multiplier</strong></li>
+              <li>15+ Streak: <strong>4.0x NEON OVERDRIVE</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div class="help-item">
+          <span class="help-num">4</span>
+          <div><strong>Keyboard Shortcuts:</strong> Use <span class="kbd-badge">1</span> <span class="kbd-badge">2</span> <span class="kbd-badge">3</span> <span class="kbd-badge">4</span> (or NumPad / A B C D) to answer instantly. Use <span class="kbd-badge">Space</span> to start / replay, and <span class="kbd-badge">Esc</span> to pause.</div>
+        </div>
+        <div class="help-item">
+          <span class="help-num">5</span>
+          <div><strong>Survival Rules:</strong> In Classic Mode, you have 3 lives. Every wrong answer or timeout costs 1 life. In 60s Blitz, race against the master clock!</div>
+        </div>
+      </div>
+
+      <button type="button" class="primary-btn" onclick="window.speedBrain.hideModal('help')">
+        GOT IT, LET'S PLAY!
+      </button>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       MODAL: PAUSE
+       ================================================================= -->
+  <div id="modal-pause" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+    <div class="modal-card" style="max-width:400px;text-align:center;">
+      <h3 id="pause-title" class="modal-title" style="margin-bottom:8px;">GAME PAUSED</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">Take a breath. Ready to jump back in?</p>
+
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button id="btn-pause-resume" type="button" class="primary-btn">Resume Game</button>
+        <button id="btn-pause-restart" type="button" class="secondary-btn">Restart Round</button>
+        <button id="btn-pause-quit" type="button" class="secondary-btn">Quit to Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Toast Notice -->
+  <div id="toast-notice" class="toast-notice">Notice message</div>
+
+  <!-- Game Logic Script (Vanilla JS, defer) -->
+  <script defer src="script.js"></script>
+</body>
+</html>
